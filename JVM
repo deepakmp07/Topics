@@ -19,9 +19,10 @@ Java Virtual Machine(JVM)
 - Native method library
 
 Class Loader
- * Loading 
- * Linking
- * Initialization
+ * It loads your application .class files and .class files of API(collection,string class,object class etc..);
+ - Loading 
+ - Linking
+ - Initialization
 
 -> Loading
   * The JVM generates the corresponding binary data and store it in the method area;
@@ -35,12 +36,18 @@ Class Loader
 
 -> Linking
 *Performs verification, preparation, and (optionally) resolution. 
+Learn it in website
+ -> verification is, it is verifying whether this file can be compiled without any error;
+ -> Preparation is , nothing but allocation memory for static variables i.e for class variables alone;
+ -> resolution is the process of replacing symbolic references from the type with direct references. It is done by searching into the method area to locate the referenced entity.
+
 
 -> Initialization
+ * In prepare phase only the memory is allocated but in this the value is assigned;
  * In this phase, all static variables are assigned with their values defined in the code and static block(if any).
  * This is executed from top to bottom in a class and from parent to child in the class hierarchy. 
 
-Just check this out not so ..
+Loaders...
 Bootstrap class loader: Every JVM implementation must have a bootstrap class loader, capable of loading trusted classes. It loads core java API classes present in the “JAVA_HOME/jre/lib” directory. This path is popularly known as the bootstrap path. It is implemented in native languages like C, C++.
 Extension class loader: It is a child of the bootstrap class loader. It loads the classes present in the extensions directories “JAVA_HOME/jre/lib/ext”(Extension path) or any other directory specified by the java.ext.dirs system property. It is implemented in java by the sun.misc.Launcher$ExtClassLoader class.
 System/Application class loader: It is a child of the extension class loader. It is responsible to load classes from the application classpath. It internally uses Environment Variable which mapped to java.class.path. It is also implemented in Java by the sun.misc.Launcher$AppClassLoader class.
@@ -52,7 +59,7 @@ If a class found in the boot-strap path, the class is loaded otherwise request a
 At last, if the system class loader fails to load class, then we get run-time exception java.lang.ClassNotFoundException. 
 
 -> Java Memory
- - Method Area
+ - Method Area(64 mb is allocated)(from java 8 it is called metaspace)
   * stores the class name, immediate parent class name,methods , variable information etc including the static variables;
   * one Method area per JVM and its shared resource
  - Heap
@@ -88,3 +95,6 @@ However, it should be used judiciously as it introduces complexity and potential
 -> Native Method Libraries : 
 
 It is a collection of the Native Libraries(C, C++) which are required by the Execution Engine.
+
+
+--finally the machine code is generated;
