@@ -1,1 +1,90 @@
-J
+Java Virtual Machine(JVM)
+ * It is a run-time engine to run java applications;
+ * It is a part of JRE;
+ * It is called WORA(write once run anywhere) 
+   ->A programmer can expect his java code to run in any java enabled system;
+ Abstract view
+ * when you compile a .java file a .class file is generated which contains the same class name as that of .java;
+ * This .class file goes into many stages , these stages are process of JVM;
+
+- Class Loader
+- JVM memory
+   * Method Area
+   * Heap
+   * stack
+   * pc Register
+   * Native Method stacks
+- Execution Engine
+- Native method interface
+- Native method library
+
+Class Loader
+ * Loading 
+ * Linking
+ * Initialization
+
+-> Loading
+  * The JVM generates the corresponding binary data and store it in the method area;
+  * Also it stores the 
+     -> Name of the class and its immediate parent class;
+     -> whether the .class file is class,interface or enum;
+     -> Modifier , variables and method information;
+  * The JVM creates an object of type class for this file and represent it in the heap memory;
+  * These can be usefull in getting the information of className , method , field etc..
+  * The Object class is present in the java.lang package so these methods are also belong to the java.lang package (getClass(),toString(),hashcode(),clone());
+
+-> Linking
+*Performs verification, preparation, and (optionally) resolution. 
+
+-> Initialization
+ * In this phase, all static variables are assigned with their values defined in the code and static block(if any).
+ * This is executed from top to bottom in a class and from parent to child in the class hierarchy. 
+
+Just check this out not so ..
+Bootstrap class loader: Every JVM implementation must have a bootstrap class loader, capable of loading trusted classes. It loads core java API classes present in the “JAVA_HOME/jre/lib” directory. This path is popularly known as the bootstrap path. It is implemented in native languages like C, C++.
+Extension class loader: It is a child of the bootstrap class loader. It loads the classes present in the extensions directories “JAVA_HOME/jre/lib/ext”(Extension path) or any other directory specified by the java.ext.dirs system property. It is implemented in java by the sun.misc.Launcher$ExtClassLoader class.
+System/Application class loader: It is a child of the extension class loader. It is responsible to load classes from the application classpath. It internally uses Environment Variable which mapped to java.class.path. It is also implemented in Java by the sun.misc.Launcher$AppClassLoader class.
+
+Important:
+JVM follows the Delegation-Hierarchy principle to load classes.
+System class loader delegate load request to extension class loader and extension class loader delegate request to the bootstrap class loader. 
+If a class found in the boot-strap path, the class is loaded otherwise request again transfers to the extension class loader and then to the system class loader. 
+At last, if the system class loader fails to load class, then we get run-time exception java.lang.ClassNotFoundException. 
+
+-> Java Memory
+ - Method Area
+  * stores the class name, immediate parent class name,methods , variable information etc including the static variables;
+  * one Method area per JVM and its shared resource
+ - Heap
+  * Information of all objects are stored in heap area;
+  * one heap per JVM and its shared resource;
+ - Stack
+  * For every thread, JVM creates one run-time stack which is stored here. 
+  * Every block of this stack is called activation record/stack frame which stores methods calls. 
+  * All local variables of that method are stored in their corresponding frame. 
+  * After a thread terminates, its run-time stack will be destroyed by JVM. It is not a shared resource.
+ - PC registers
+ - Native method stacks
+
+-> Execution Engine
+ * It reads the byte-code (.class) line by line 
+ - Intrepreter
+    * It interprets the bytecode line by line and then executes. 
+    * The disadvantage here is that when one method is called multiple times, every time interpretation is required.
+ - Just-In-Time Compiler(JIT) 
+    * It is used to increase the efficiency of an interpreter. 
+    * It compiles the entire bytecode and changes it to native code so whenever the interpreter sees repeated method calls, JIT provides direct native code for that part so re-interpretation is not required, thus efficiency is improved.
+- Garbage Collector
+    * It destroys un-referenced objects. For more on Garbage Collecto
+
+-> Java Native Interface (JNI) :
+
+It is an interface that interacts with the Native Method Libraries and provides the native libraries(C, C++) required for the execution.
+It enables JVM to call C/C++ libraries and to be called by C/C++ libraries which may be specific to hardware.
+
+JNI serves as a bridge between the Java Virtual Machine (JVM) and native code, enabling Java programs to leverage native libraries, access system-level functionalities, optimize performance, and integrate with platform-specific features. 
+However, it should be used judiciously as it introduces complexity and potential security risks if not implemented carefully.
+
+-> Native Method Libraries : 
+
+It is a collection of the Native Libraries(C, C++) which are required by the Execution Engine.
